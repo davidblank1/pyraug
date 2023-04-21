@@ -11,7 +11,7 @@ class Encoder_MLP(BaseEncoder):
         self.input_dim = args.input_dim
         self.latent_dim = args.latent_dim
 
-        self.layers = nn.Sequential(nn.Linear(args.input_dim, 500), nn.ReLU())
+        self.layers = nn.Sequential(nn.Linear(args.input_dim, 500), nn.TanH())
         self.mu = nn.Linear(500, self.latent_dim)
         self.std = nn.Linear(500, self.latent_dim)
 
@@ -26,7 +26,7 @@ class Decoder_MLP(BaseDecoder):
 
         self.layers = nn.Sequential(
             nn.Linear(args.latent_dim, 500),
-            nn.ReLU(),
+            nn.TanH(),
             nn.Linear(500, args.input_dim),
             nn.Sigmoid(),
         )
@@ -50,7 +50,7 @@ class Metric_MLP(BaseMetric):
         self.input_dim = args.input_dim
         self.latent_dim = args.latent_dim
 
-        self.layers = nn.Sequential(nn.Linear(self.input_dim, 400), nn.ReLU())
+        self.layers = nn.Sequential(nn.Linear(self.input_dim, 400), nn.TanH())
         self.diag = nn.Linear(400, self.latent_dim)
         k = int(self.latent_dim * (self.latent_dim - 1) / 2)
         self.lower = nn.Linear(400, k)
